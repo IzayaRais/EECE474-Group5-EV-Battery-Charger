@@ -1,82 +1,61 @@
 # EECE 474 — Group 5: Interleaved Boost PFC with Half-Bridge LLC Resonant Converter-Based EV Battery Charger
 
-**Course:** EECE 474 — Power Electronics  
-**Institution:** Military Institute of Science and Technology (MIST), Dhaka, Bangladesh  
-**Group:** 05
+<p align="center">
+  <img src="figures/circuit_diagram/circuit_render.png" alt="Circuit Diagram" width="700"/>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Course-EECE%20474-blue?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Institution-MIST-green?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Simulation-MATLAB%20Simulink-orange?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Status-Completed-brightgreen?style=flat-square"/>
+</p>
+
+---
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [System Architecture](#system-architecture)
+- [Design Specifications](#design-specifications)
+- [Stage 1 — Interleaved Boost PFC](#stage-1--interleaved-boost-pfc)
+- [Stage 2 — Half-Bridge LLC Resonant Converter](#stage-2--half-bridge-llc-resonant-converter)
+- [Key Waveforms](#key-waveforms)
+- [Simulation Results](#simulation-results)
+- [Repository Structure](#repository-structure)
+- [How to Run the Simulation](#how-to-run-the-simulation)
+- [Tools Used](#tools-used)
+- [References](#references)
+- [Authors](#authors)
 
 ---
 
 ## Project Overview
 
-This project presents the design and simulation of a two-stage EV battery charger:
+Electric Vehicle (EV) adoption is accelerating globally, making high-efficiency, high-power-density on-board battery chargers a critical area of power electronics research. This project designs and simulates a **two-stage AC-DC EV battery charger** that addresses the key challenges of:
 
-1. **Stage 1 — Interleaved Boost PFC (Power Factor Correction):** Converts AC mains input to a regulated DC link voltage while achieving near-unity power factor and low THD.
-2. **Stage 2 — Half-Bridge LLC Resonant Converter:** Provides galvanic isolation and regulated DC output suitable for EV battery charging, operating at resonant frequency for high efficiency.
+- **Power quality** — near-unity power factor and low Total Harmonic Distortion (THD) at the AC mains
+- **Galvanic isolation** — safe separation between the AC grid and the EV battery
+- **High efficiency** — zero-voltage switching (ZVS) operation in the DC-DC stage
+- **Regulated output** — stable DC voltage suitable for lithium-ion battery charging
 
-The full system is modeled and simulated in **MATLAB Simulink**.
+The full system is modeled and simulated in **MATLAB Simulink**, with all circuit waveforms validated against theoretical expectations.
 
 ---
 
-## Repository Structure
+## System Architecture
 
 ```
-.
-├── report/
-│   └── Group05_Report.pdf              # Final project report
-├── presentation/
-│   ├── Group05_Presentation.pptx       # Final presentation slides
-│   └── EECE474_Presentation_Template.pptx
-├── simulation/
-│   └── EV_Charger_Simulink_Model.slx   # MATLAB Simulink model
-├── figures/
-│   ├── circuit_diagram/                # Circuit schematics (Visio, PNG)
-│   └── waveforms/
-│       ├── svg/                        # Waveform exports (SVG)
-│       └── png/                        # Waveform exports (PNG, 150 dpi)
-├── references/
-│   └── Interleaved_Boost_PFC_LLC_EV_Charger_Reference.pdf
-└── README.md
-```
-
----
-
-## Key Waveforms
-
-| Waveform | Description |
-|----------|-------------|
-| `PE_DC_Link` | DC link voltage across the PFC output capacitor |
-| `PE_I_and_V` | Input AC current and voltage (PFC stage) |
-| `PE_IIR` | Interleaved inductor currents (IL1, IL2) |
-| `PE_Vs` | Switching node voltage |
-| `il1`, `il2` | Individual boost inductor currents |
-| `llm1` | LLC resonant inductor current |
-
----
-
-## Tools Used
-
-- **MATLAB Simulink** — System simulation (`.slx` model)
-- **Microsoft Visio** — Circuit diagram drafting (`.vsdx`)
-- **Adobe Illustrator** — Waveform figure preparation (`.ai`)
-
----
-
-## How to Run the Simulation
-
-1. Open MATLAB (R2021a or later recommended).
-2. Navigate to the `simulation/` folder.
-3. Open `EV_Charger_Simulink_Model.slx`.
-4. Run the simulation (Ctrl+T or the Run button).
-5. Observe waveforms on the Scope blocks.
-
----
-
-## Reference
-
-> *Interleaved Boost PFC with Half Bridge LLC Resonant Converter based EV Battery Charger* — see `references/` folder for the source paper.
-
----
-
-## Authors
-
-- Group 05, EECE 474 — Power Electronics, MIST
+ AC Mains (220V, 50Hz)
+        │
+        ▼
+┌───────────────────────┐
+│  Interleaved Boost    │   Stage 1: PFC
+│  PFC Converter        │   → Unity power factor
+│  (2 interleaved legs) │   → Low input current THD
+└──────────┬────────────┘   → Regulated DC link (~400V)
+           │
+           ▼  DC Link Bus (~400V)
+┌───────────────────────┐
+│  Half-Bridge LLC      │   Stage 2: Isolated DC-DC
+│  Resonant Converter   │   → G
