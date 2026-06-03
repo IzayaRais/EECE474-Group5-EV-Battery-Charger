@@ -1,0 +1,22 @@
+# MATLAB
+*.asv
+*.m~
+slprj/
+*.slxc
+*.mex*
+codegen/
+
+# Adobe Illustrator
+*.ai
+
+# Compressed archives
+*.rar
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temp folders
+Graphs/
